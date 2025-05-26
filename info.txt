@@ -1,0 +1,23 @@
+GET
+curl "https://api-generator.retool.com/NdMVjm/data"
+
+GET filter
+curl "https://api-generator.retool.com/NdMVjm/data?nombre=value"
+
+GET by id
+curl "https://api-generator.retool.com/NdMVjm/data/1"
+
+GET paginate
+curl "https://api-generator.retool.com/NdMVjm/data?_page=2&_limit=10"
+
+POST
+curl https://api-generator.retool.com/NdMVjm/data
+
+PUT
+curl https://api-generator.retool.com/NdMVjm/data/1
+
+PATCH
+curl https://api-generator.retool.com/NdMVjm/data/1
+
+DELETE
+curl https://api-generator.retool.com/NdMVjm/data/1
