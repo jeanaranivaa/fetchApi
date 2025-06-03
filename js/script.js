@@ -29,7 +29,7 @@ function mostrarDatos(datos){
                 <td>${persona.edad}</td>
                 <td>
                     <button>Editar</button>
-                    <button>Eliminar</button>
+                    <button onClick="EliminarPersona(${persona.id})">Eliminar</button>
                 </td>      
             </tr>
         `
@@ -53,7 +53,7 @@ btnCerrar.addEventListener("click", () =>{
     modal.close();
 })
 
-document.getElementById("grmAgregar").addEventListener("submit", async e => {
+document.getElementById("frmAgregar").addEventListener("submit", async e => {
     e.preventDefault(); // "e" representa "submit" - Evita que el formulario se envie de golpe
 
     //Capturar los valores del formulario
@@ -79,7 +79,7 @@ document.getElementById("grmAgregar").addEventListener("submit", async e => {
         alert("El registro fue agregado correctamente");
 
         //Limpiar el formulario y cerrar el modal
-        modal.getElementById("frmAgregar").reset();
+        document.getElementById("frmAgregar").reset();
 
         modal.close();
 
@@ -92,3 +92,16 @@ document.getElementById("grmAgregar").addEventListener("submit", async e => {
 
 
 });
+
+//Funcion para borrar registros
+async function EliminarPersona(id){
+    const confirmacion = confirm("¿Estás seguro que deseas borrar el registro?");
+
+    //Validamos si el usuario dijo que sí
+    if(confirmacion){
+        await fetch(`${API_URL}/${id}`, {method: "DELETE"});
+
+        //Recargamos la tabla para ver la eliminación
+        obtenerPersonas();
+    }
+}
