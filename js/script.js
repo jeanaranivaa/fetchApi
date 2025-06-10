@@ -28,7 +28,7 @@ function mostrarDatos(datos){
                 <td>${persona.email}</td>
                 <td>${persona.edad}</td>
                 <td>
-                    <button>Editar</button>
+                    <button onclick="AbrirModalEditar(${persona.id}, '${persona.nombre}', '${persona.apellido}', '${persona.email}', '${persona.edad}' )">Editar</button>
                     <button onClick="EliminarPersona(${persona.id})">Eliminar</button>
                 </td>      
             </tr>
@@ -105,3 +105,54 @@ async function EliminarPersona(id){
         obtenerPersonas();
     }
 }
+
+//Proceso para editar un registro
+const modalEditar = document.getElementById("modal-editar");
+const btnCerrarModal = document.getElementById("btnCerrarEditar");
+
+btnCerrarModal.addEventListener("click", () =>{
+    modalEditar.close();
+})
+
+function AbrirModalEditar (id, nombre, apellido, email, edad){
+    document.getElementById("idEditar").value = id;
+    document.getElementById("nombreEditar").value = nombre;
+    document.getElementById("apellidoEditar").value = apellido;
+    document.getElementById("emailEditar").value = email;
+    document.getElementById("edadEditar").value = edad;
+
+    modalEditar.showModal();
+}
+
+document.getElementById("frmEditar").addEventListener("submit", async e=>{
+    e.preventDefault();
+
+    const id = document.getElementById("idEditar").value;
+    const nombre = document.getElementById("nombreEditar").value.trim();
+    const apellido = document.getElementById("apellidoEditar").value.trim();
+    const email = document.getElementById("emailEditar").value.trim();
+    const edad = document.getElementById("edadEditar").value.trim();
+
+    if(!id || !nombre || !apellido || !email || !edad){
+        alert("Complete todos los campos");
+        return;
+    }
+
+    //Llamada a la API
+    const respuesta = await fetch(`${API_URL}/${id}`, {
+        method: "PUT",
+        headers: {"Content-Type":"application/json"}, 
+        body: JSON.stringify({edad, email, nombre, apellido})
+    });
+
+    if (respuesta.ok){
+        alert("Registro actualizado con exito");
+        modalEditar.close();
+        obtenerPersonas();
+    }
+    else{
+        alert("Hubo un error al actualizar");
+    }
+
+ });
+
